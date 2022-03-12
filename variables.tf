@@ -1170,7 +1170,7 @@ variable "flow_log_file_format" {
   default     = "plain-text"
   validation {
     condition = can(regex("^(plain-text|parquet)$",
-      var.flow_log_file_format))
+    var.flow_log_file_format))
     error_message = "ERROR valid values: plain-text, parquet."
   }
 }
