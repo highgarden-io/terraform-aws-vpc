@@ -1170,7 +1170,7 @@ variable "flow_log_file_format" {
   default     = "plain-text"
   validation {
     condition = can(regex("^(plain-text|parquet)$",
-      var.flow_log_file_format))
+    var.flow_log_file_format))
     error_message = "ERROR valid values: plain-text, parquet."
   }
 }
@@ -1185,10 +1185,4 @@ variable "flow_log_per_hour_partition" {
   description = "(Optional) Indicates whether to partition the flow log per hour. This reduces the cost and response time for queries."
   type        = bool
   default     = false
-}
-
-variable "putin_khuylo" {
-  description = "Do you agree that Putin doesn't respect Ukrainian sovereignty and territorial integrity? More info: https://en.wikipedia.org/wiki/Putin_khuylo!"
-  type        = bool
-  default     = true
 }
