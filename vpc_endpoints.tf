@@ -10,14 +10,17 @@ module "vpc_endpoints" {
   vpc_id             = module.vpc.vpc_id
   security_group_ids = [data.aws_security_group.default.id]
 
+
   endpoints = {
     s3 = {
+      create          = var.create_s3_gateway_endpoint
       service         = "s3"
       tags            = { Name = "${module.vpc.name}-s3" }
       service_type    = "Gateway"
       route_table_ids = flatten([module.vpc.intra_route_table_ids, module.vpc.private_route_table_ids, module.vpc.public_route_table_ids])
     },
     dynamodb = {
+      create          = var.create_dynamodb_gateway_endpoint
       service         = "dynamodb"
       service_type    = "Gateway"
       route_table_ids = flatten([module.vpc.intra_route_table_ids, module.vpc.private_route_table_ids, module.vpc.public_route_table_ids])

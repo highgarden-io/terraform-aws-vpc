@@ -1,8 +1,15 @@
+data "aws_default_tags" "provider" {}
+locals {
+  tags = {
+    for k, v in var.tags : k => v if lookup(data.aws_default_tags.provider.tags, k, null) == null || lookup(data.aws_default_tags.provider.tags, k, null) != v
+  }
+}
+
 module "vpc" {
   source                                             = "terraform-aws-modules/vpc/aws"
   version                                            = "3.13.0"
   create_vpc                                         = var.create_vpc
-  name                                               = var.name
+  name                                               = module.labels.id
   cidr                                               = var.cidr
   enable_ipv6                                        = var.enable_ipv6
   private_subnet_ipv6_prefixes                       = var.private_subnet_ipv6_prefixes
@@ -71,7 +78,7 @@ module "vpc" {
   default_route_table_propagating_vgws               = var.default_route_table_propagating_vgws
   default_route_table_routes                         = var.default_route_table_routes
   default_route_table_tags                           = var.default_route_table_tags
-  tags                                               = var.tags
+  tags                                               = local.tags
   vpc_tags                                           = var.vpc_tags
   igw_tags                                           = var.igw_tags
   public_subnet_tags                                 = var.public_subnet_tags
