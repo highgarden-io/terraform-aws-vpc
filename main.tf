@@ -1,7 +1,7 @@
 data "aws_default_tags" "provider" {}
 locals {
   tags = {
-    for k, v in var.tags : k => v if lookup(data.aws_default_tags.provider.tags, k, null) == null || lookup(data.aws_default_tags.provider.tags, k, null) != v
+    for k, v in merge(module.labels.labels, var.tags) : k => v if lookup(data.aws_default_tags.provider.tags, k, null) == null || lookup(data.aws_default_tags.provider.tags, k, null) != v
   }
 }
 
